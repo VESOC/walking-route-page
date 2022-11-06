@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Request
-from github3 import login
+from github import Github
 from createPage import createPage
 from dotenv import load_dotenv
 import os
@@ -26,14 +26,10 @@ async def root():
 
 @app.post('/route/{user_id}/create/{route_id}')
 async def route(user_id: str, route_id: str, route: dict):
-    print(route)
     page_encoded = await createPage(route)
-    g = login(os.environ['GUSER'], os.environ['GPASS'])
-    print('g')
-    repo = g.repository('vesoc', 'walking-route-page')
-    print('repo')
-    re = repo.create_file(path=f'{route_id}.html', message=f'Create {route_id}.html', content=page_encoded, branch='main')
-    print(re)
+    g = Github(os.environ['GTOKEN'])
+    repo = g.get_repo('vesoc/walking-route-page')
+    re = repo.create_file(path=f'pages/{route_id}.html', message=f'Create {route_id}.html', content=page_encoded, branch='main')
 
 
 import requests

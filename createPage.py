@@ -48,9 +48,7 @@ async def createPage(data):
     tabBtns, tabItems = getTabs(data['routeDescription'], data['waypoints'])
     pageData = header + content.replace('REP:CarouselBtn', carouselBtn).replace('REP:CarouselItem', carouselItems).replace('REP:TabBtn', '\n'.join(tabBtns)).replace('REP:TabDiv', '\n'.join(tabItems)) + footer
     page_bytes = pageData.encode('utf-8')
-    with open('page.html', 'w', encoding='utf-8') as f:
-        f.write(pageData)
-    return b64encode(page_bytes)
+    return page_bytes
 
 
 def getCarosel(img, n):
