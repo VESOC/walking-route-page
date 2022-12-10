@@ -74,7 +74,7 @@ async def ntf(user: str = '', achievement: str = ''):
     if !validUser(user) or !validAchievement(achievement) or !didAchieve(user, achievement):
         return
     try:
-        img = create_new_image(achievement)
+        img = nft_character.create_new_image(achievement)
         fp = TemporaryFile()
         img.save(fp, 'PNG')
         #TODO: Code
