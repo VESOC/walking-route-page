@@ -16,8 +16,7 @@ jobs:
         uses: tj-actions/changed-files@v34.5.1
       - name: List all changed files
         run: >
-          for file in ${{ steps.changed-files.outputs.all_changed_and_modified_files
-          }}; do
+          for file in ${{ steps.changed-files.outputs.changed_files}}; do
             python on_upload.py $file
           done
       - name: Commit files
