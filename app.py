@@ -53,3 +53,40 @@ async def images(images: list[UploadFile] = File(...)):
         print(res.json()['medium']['url'])
         resp[i] = res.json()
     return resp
+
+def validUser(user: str):
+    #TODO: need to implement user validation DB
+    return True
+
+def validAchievement(achievement: str):
+    return achievement.startswith('ach') and achievement[3:].isnumeric()
+
+def didAchieve(user: str, achievement: str):
+    #TODO: need to implement DB for user achievements
+    return True
+
+import nft_character
+from tempfile import TemporaryFile
+@app.get('/nft')
+async def ntf(user: str = '', achievement: str = ''):
+    if !user or !achievement:
+        return
+    if !validUser(user) or !validAchievement(achievement) or !didAchieve(user, achievement):
+        return
+    try:
+        img = create_new_image(achievement)
+        fp = TemporaryFile()
+        img.save(fp, 'PNG')
+        #TODO: Code
+        url = f"https://api.imgbb.com/1/upload?key={os.environ['IMGBB_API']}"
+        payload = {
+            "image": base64.b64encode(file.file.read()),
+        }
+        m = MultipartEncoder(fields=payload)
+        res = requests.post(url, payload)
+        resp = res.json()
+        if resp.has_key('medium'):
+            return {'img_url': resp['medium']['url']}
+    finally:
+        fp.seek(0)
+        fp.close()
