@@ -32,10 +32,11 @@ async def main(request: Request):
 
 @app.post('/upload/{user_id}/create/{route_id}')
 async def route(user_id: str, route_id: str, route: dict):
+    print(f'{user_id} created {route_id} with following params\n{route}')
     page_encoded = await createPage(route)
     g = Github(os.environ['GTOKEN'])
     repo = g.get_repo('vesoc/walking-route-page')
-    re = repo.create_file(path=f'pages/{route_id}.html', message=f'Create {route_id}.html', content=page_encoded, branch='main')
+    re = repo.create_file(path=f'pages/{route_id.replace(" ", "-")}.html', message=f'Create {route_id}.html', content=page_encoded, branch='main')
 
 from requests_toolbelt import MultipartEncoder
 import requests
