@@ -69,9 +69,9 @@ import nft_character
 from tempfile import TemporaryFile
 @app.get('/nft')
 async def ntf(user: str = '', achievement: str = ''):
-    if !user or !achievement:
+    if not user or not achievement:
         return
-    if !validUser(user) or !validAchievement(achievement) or !didAchieve(user, achievement):
+    if not validUser(user) or not validAchievement(achievement) or not didAchieve(user, achievement):
         return
     try:
         img = nft_character.create_new_image(achievement)
